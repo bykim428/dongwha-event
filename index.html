@@ -45,9 +45,8 @@
       border: none;
     }
 
-    /* ── Welcome banner wrapper ── */
-    #welcome-banner {
-      position: relative;
+    /* ── Top banner wrapper ── */
+    #top-banner {
       width: 100%;
     }
   </style>
@@ -55,17 +54,12 @@
 <body>
 <div id="app">
 
-  <!-- ① Welcome banner (from + lang 조합으로 이미지 교체) -->
-  <section id="welcome-banner">
-    <img id="welcome-img" src="welcome_면세점_kr.jpg" alt="웰컴 배너" />
+  <!-- ① Top banner (lang별 이미지 / from 있을 경우 from+lang 조합) -->
+  <section id="top-banner">
+    <img id="top-banner-img" src="top_banner_kr.jpg" alt="상단 배너" />
   </section>
 
-  <!-- ② Hero -->
-  <section id="hero">
-    <img id="hero-img" src="hero_kr.jpg" alt="기획전 1 히어로" />
-  </section>
-
-  <!-- ③ Content 1~7 -->
+  <!-- ② Content 1~7 -->
   <section id="content1"><img id="content1-img"   src="content1_kr.jpg"  alt="기획전 1 콘텐츠 1"  /></section>
   <section id="content2"><img id="content2-img"   src="content2_kr.jpg"  alt="기획전 1 콘텐츠 2"  /></section>
   <section id="content3"><img id="content3-img"   src="content3_kr.jpg"  alt="기획전 1 콘텐츠 3"  /></section>
@@ -91,18 +85,19 @@
   const fromKey = params.get('from') || '면세점';  // default: 면세점
 
   /* ────────────────────────────────────────────
-     2. Welcome banner — from + lang 조합 이미지
-        파일명 규칙: welcome_{from}_{lang}.jpg
-        예) welcome_삼다수_kr.jpg / welcome_면세점_en.jpg
+     2. Top banner 이미지 결정
+        - from 파라미터 있으면 → top_banner_{from}_{lang}.jpg
+        - from 없으면(기본)   → top_banner_{lang}.jpg
   ──────────────────────────────────────────── */
-  document.getElementById('welcome-img').src =
-    'welcome_' + fromKey + '_' + lang + '.jpg';
+  const topBannerSrc = fromKey !== '면세점'
+    ? 'top_banner_' + fromKey + '_' + lang + '.jpg'
+    : 'top_banner_' + lang + '.jpg';
+  document.getElementById('top-banner-img').src = topBannerSrc;
 
   /* ────────────────────────────────────────────
      3. Image asset map (lang별 교체 대상)
   ──────────────────────────────────────────── */
   const assets = {
-    hero:      { kr: 'hero_kr.jpg',      en: 'hero_en.jpg',      ch: 'hero_ch.jpg'      },
     content1:  { kr: 'content1_kr.jpg',  en: 'content1_en.jpg',  ch: 'content1_ch.jpg'  },
     content2:  { kr: 'content2_kr.jpg',  en: 'content2_en.jpg',  ch: 'content2_ch.jpg'  },
     content3:  { kr: 'content3_kr.jpg',  en: 'content3_en.jpg',  ch: 'content3_ch.jpg'  },
@@ -122,7 +117,6 @@
     if (el && map) el.src = map[lang] || map.kr;
   }
 
-  setImg('hero-img', 'hero');
   for (var i = 1; i <= 7; i++) {
     setImg('content' + i + '-img', 'content' + i);
   }
