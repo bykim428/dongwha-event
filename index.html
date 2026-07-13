@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>동화면세점 기획전 1</title>
+  <title>동화면세점 특별기획전</title>
 
   <!-- GA4 Scroll-depth tracking placeholder -->
   <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -67,6 +67,8 @@
   <section id="content5"><img id="content5-img"   src="content5_kr.jpg"  alt="기획전 1 콘텐츠 5"  /></section>
   <section id="content6"><img id="content6-img"   src="content6_kr.jpg"  alt="기획전 1 콘텐츠 6"  /></section>
   <section id="content7"><img id="content7-img"   src="content7_kr.jpg"  alt="기획전 1 콘텐츠 7"  /></section>
+  <section id="content8"><img id="content8-img"   src="content8_kr.jpg"  alt="기획전 1 콘텐츠 8"  /></section>
+  <section id="content9"><img id="content9-img"   src="content9_kr.jpg"  alt="기획전 1 콘텐츠 9"  /></section>
 
   <!-- ④ Coupon -->
   <section id="coupon">
@@ -105,6 +107,8 @@
     content5:  { kr: 'content5_kr.jpg',  en: 'content5_en.jpg',  ch: 'content5_ch.jpg'  },
     content6:  { kr: 'content6_kr.jpg',  en: 'content6_en.jpg',  ch: 'content6_ch.jpg'  },
     content7:  { kr: 'content7_kr.jpg',  en: 'content7_en.jpg',  ch: 'content7_ch.jpg'  },
+    content8:  { kr: 'content8_kr.jpg',  en: 'content8_en.jpg',  ch: 'content8_ch.jpg'  },
+    content9:  { kr: 'content9_kr.jpg',  en: 'content9_en.jpg',  ch: 'content9_ch.jpg'  },
     coupon:    { kr: 'coupon_kr.jpg',    en: 'coupon_en.jpg',    ch: 'coupon_ch.jpg'    }
   };
 
@@ -117,7 +121,12 @@
     if (el && map) el.src = map[lang] || map.kr;
   }
 
-  for (var i = 1; i <= 7; i++) {
+  /* ────────────────────────────────────────────
+     5. 페이지 타이틀 — lang별 분기
+  ──────────────────────────────────────────── */
+  document.title = lang === 'kr' ? '동화면세점 특별기획전' : 'Dongwha Dutyfree_event';
+
+  for (var i = 1; i <= 9; i++) {
     setImg('content' + i + '-img', 'content' + i);
   }
   setImg('coupon-img', 'coupon');
