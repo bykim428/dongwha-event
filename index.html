@@ -45,34 +45,90 @@
       border: none;
     }
 
-    /* ── Top banner wrapper ── */
+    /* ── Top banner ── */
     #top-banner {
       width: 100%;
+    }
+
+    /* ── Category bar ── */
+    #category {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+    }
+
+    /* 이미지 위에 클릭 영역을 얹는 오버레이 래퍼 */
+    #category .cat-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    /* 원본 이미지 가로 1198px 기준 비율로 클릭 영역 계산
+       RUSH DEAL   : 0    ~ 390px  → 0%    ~ 32.55%
+       SECRET COUPON: 390  ~ 790px  → 32.55% ~ 65.94%
+       STORE INFO  : 790  ~ 1198px → 65.94% ~ 100%   */
+    #category .cat-wrap a {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      display: block;
+      cursor: pointer;
+    }
+
+    #category .cat-wrap a#cat-rush   { left: 0%;      width: 32.55%; }
+    #category .cat-wrap a#cat-coupon { left: 32.55%;  width: 33.39%; }
+    #category .cat-wrap a#cat-store  { left: 65.94%;  width: 34.06%; }
+
+    /* ── Content sections ── */
+    .content-section img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      border: none;
     }
   </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ① Top banner (lang별 이미지 / from 있을 경우 from+lang 조합) -->
+  <!-- ① Top banner (lang별 / from+lang 조합) -->
   <section id="top-banner">
     <img id="top-banner-img" src="top_banner_kr.jpg" alt="상단 배너" />
   </section>
 
-  <!-- ② Content 1~7 -->
-  <section id="content1"><img id="content1-img"   src="content1_kr.jpg"  alt="기획전 1 콘텐츠 1"  /></section>
-  <section id="content2"><img id="content2-img"   src="content2_kr.jpg"  alt="기획전 1 콘텐츠 2"  /></section>
-  <section id="content3"><img id="content3-img"   src="content3_kr.jpg"  alt="기획전 1 콘텐츠 3"  /></section>
-  <section id="content4"><img id="content4-img"   src="content4_kr.jpg"  alt="기획전 1 콘텐츠 4"  /></section>
-  <section id="content5"><img id="content5-img"   src="content5_kr.jpg"  alt="기획전 1 콘텐츠 5"  /></section>
-  <section id="content6"><img id="content6-img"   src="content6_kr.jpg"  alt="기획전 1 콘텐츠 6"  /></section>
-  <section id="content7"><img id="content7-img"   src="content7_kr.jpg"  alt="기획전 1 콘텐츠 7"  /></section>
-  <section id="content8"><img id="content8-img"   src="content8_kr.jpg"  alt="기획전 1 콘텐츠 8"  /></section>
-  <section id="content9"><img id="content9-img"   src="content9_kr.jpg"  alt="기획전 1 콘텐츠 9"  /></section>
+  <!-- ② Category bar (이미지 + 반응형 오버레이 클릭 영역) -->
+  <nav id="category">
+    <div class="cat-wrap">
+      <img id="category-img" src="category_kr.jpg" alt="카테고리" />
+      <a id="cat-rush"   href="#content1" aria-label="RUSH DEAL"></a>
+      <a id="cat-coupon" href="#coupon"   aria-label="SECRET COUPON"></a>
+      <a id="cat-store"  href="#store-info" aria-label="STORE INFO"></a>
+    </div>
+  </nav>
+
+  <!-- ③ Content 1~10 -->
+  <section id="content1"  class="content-section"><img id="content1-img"  src="content1_kr.jpg"  alt="콘텐츠 1"  /></section>
+  <section id="content2"  class="content-section"><img id="content2-img"  src="content2_kr.jpg"  alt="콘텐츠 2"  /></section>
+  <section id="content3"  class="content-section"><img id="content3-img"  src="content3_kr.jpg"  alt="콘텐츠 3"  /></section>
+  <section id="content4"  class="content-section"><img id="content4-img"  src="content4_kr.jpg"  alt="콘텐츠 4"  /></section>
+  <section id="content5"  class="content-section"><img id="content5-img"  src="content5_kr.jpg"  alt="콘텐츠 5"  /></section>
+  <section id="content6"  class="content-section"><img id="content6-img"  src="content6_kr.jpg"  alt="콘텐츠 6"  /></section>
+  <section id="content7"  class="content-section"><img id="content7-img"  src="content7_kr.jpg"  alt="콘텐츠 7"  /></section>
+  <section id="content8"  class="content-section"><img id="content8-img"  src="content8_kr.jpg"  alt="콘텐츠 8"  /></section>
+  <section id="content9"  class="content-section"><img id="content9-img"  src="content9_kr.jpg"  alt="콘텐츠 9"  /></section>
+  <section id="content10" class="content-section"><img id="content10-img" src="content10_kr.jpg" alt="콘텐츠 10" /></section>
 
   <!-- ④ Coupon -->
   <section id="coupon">
     <img id="coupon-img" src="coupon_kr.jpg" alt="쿠폰" />
+  </section>
+
+  <!-- ⑤ Store Info -->
+  <section id="store-info">
+    <img id="store-info-img" src="store_info_kr.jpg" alt="스토어 정보" />
   </section>
 
 </div><!-- /#app -->
@@ -83,53 +139,72 @@
      1. Read URL parameters
   ──────────────────────────────────────────── */
   const params  = new URLSearchParams(window.location.search);
-  const lang    = params.get('lang') || 'kr';    // default: kr
-  const fromKey = params.get('from') || '면세점';  // default: 면세점
+  const lang    = params.get('lang') || 'kr';
+  const fromKey = params.get('from') || '면세점';
 
   /* ────────────────────────────────────────────
      2. Top banner 이미지 결정
-        - from 파라미터 있으면 → top_banner_{from}_{lang}.jpg
-        - from 없으면(기본)   → top_banner_{lang}.jpg
+        from 있으면 → top_banner_{from}_{lang}.jpg
+        기본        → top_banner_{lang}.jpg
   ──────────────────────────────────────────── */
-  const topBannerSrc = fromKey !== '면세점'
+  document.getElementById('top-banner-img').src = fromKey !== '면세점'
     ? 'top_banner_' + fromKey + '_' + lang + '.jpg'
     : 'top_banner_' + lang + '.jpg';
-  document.getElementById('top-banner-img').src = topBannerSrc;
 
   /* ────────────────────────────────────────────
-     3. Image asset map (lang별 교체 대상)
+     3. Image asset map
   ──────────────────────────────────────────── */
   const assets = {
-    content1:  { kr: 'content1_kr.jpg',  en: 'content1_en.jpg',  ch: 'content1_ch.jpg'  },
-    content2:  { kr: 'content2_kr.jpg',  en: 'content2_en.jpg',  ch: 'content2_ch.jpg'  },
-    content3:  { kr: 'content3_kr.jpg',  en: 'content3_en.jpg',  ch: 'content3_ch.jpg'  },
-    content4:  { kr: 'content4_kr.jpg',  en: 'content4_en.jpg',  ch: 'content4_ch.jpg'  },
-    content5:  { kr: 'content5_kr.jpg',  en: 'content5_en.jpg',  ch: 'content5_ch.jpg'  },
-    content6:  { kr: 'content6_kr.jpg',  en: 'content6_en.jpg',  ch: 'content6_ch.jpg'  },
-    content7:  { kr: 'content7_kr.jpg',  en: 'content7_en.jpg',  ch: 'content7_ch.jpg'  },
-    content8:  { kr: 'content8_kr.jpg',  en: 'content8_en.jpg',  ch: 'content8_ch.jpg'  },
-    content9:  { kr: 'content9_kr.jpg',  en: 'content9_en.jpg',  ch: 'content9_ch.jpg'  },
-    coupon:    { kr: 'coupon_kr.jpg',    en: 'coupon_en.jpg',    ch: 'coupon_ch.jpg'    }
+    category:  { kr: 'category_kr.jpg',   en: 'category_en.jpg',   ch: 'category_ch.jpg'   },
+    content1:  { kr: 'content1_kr.jpg',   en: 'content1_en.jpg',   ch: 'content1_ch.jpg'   },
+    content2:  { kr: 'content2_kr.jpg',   en: 'content2_en.jpg',   ch: 'content2_ch.jpg'   },
+    content3:  { kr: 'content3_kr.jpg',   en: 'content3_en.jpg',   ch: 'content3_ch.jpg'   },
+    content4:  { kr: 'content4_kr.jpg',   en: 'content4_en.jpg',   ch: 'content4_ch.jpg'   },
+    content5:  { kr: 'content5_kr.jpg',   en: 'content5_en.jpg',   ch: 'content5_ch.jpg'   },
+    content6:  { kr: 'content6_kr.jpg',   en: 'content6_en.jpg',   ch: 'content6_ch.jpg'   },
+    content7:  { kr: 'content7_kr.jpg',   en: 'content7_en.jpg',   ch: 'content7_ch.jpg'   },
+    content8:  { kr: 'content8_kr.jpg',   en: 'content8_en.jpg',   ch: 'content8_ch.jpg'   },
+    content9:  { kr: 'content9_kr.jpg',   en: 'content9_en.jpg',   ch: 'content9_ch.jpg'   },
+    content10: { kr: 'content10_kr.jpg',  en: 'content10_en.jpg',  ch: 'content10_ch.jpg'  },
+    coupon:    { kr: 'coupon_kr.jpg',     en: 'coupon_en.jpg',     ch: 'coupon_ch.jpg'     },
+    storeInfo: { kr: 'store_info_kr.jpg', en: 'store_info_en.jpg', ch: 'store_info_ch.jpg' }
   };
 
   /* ────────────────────────────────────────────
      4. Swap images based on lang
   ──────────────────────────────────────────── */
   function setImg(id, assetKey) {
-    const el  = document.getElementById(id);
-    const map = assets[assetKey];
+    var el  = document.getElementById(id);
+    var map = assets[assetKey];
     if (el && map) el.src = map[lang] || map.kr;
   }
+
+  setImg('category-img',  'category');
+  for (var i = 1; i <= 10; i++) {
+    setImg('content' + i + '-img', 'content' + i);
+  }
+  setImg('coupon-img',     'coupon');
+  setImg('store-info-img', 'storeInfo');
 
   /* ────────────────────────────────────────────
      5. 페이지 타이틀 — lang별 분기
   ──────────────────────────────────────────── */
   document.title = lang === 'kr' ? '동화면세점 특별기획전' : 'Dongwha Dutyfree_event';
 
-  for (var i = 1; i <= 9; i++) {
-    setImg('content' + i + '-img', 'content' + i);
-  }
-  setImg('coupon-img', 'coupon');
+  /* ────────────────────────────────────────────
+     6. Category bar — smooth scroll
+        CSS 오버레이 비율로 반응형 처리되므로
+        href 그대로 두고 preventDefault + scrollIntoView 사용
+  ──────────────────────────────────────────── */
+  ['cat-rush', 'cat-coupon', 'cat-store'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(el.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
 
 })();
 </script>
